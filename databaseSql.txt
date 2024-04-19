@@ -1,0 +1,19 @@
+﻿CREATE TABLE Bank (
+    Id SERIAL PRIMARY KEY,
+    BankName VARCHAR(255) NOT NULL,
+    BankCode VARCHAR(255) NOT NULL,
+    InterestRate DECIMAL NOT NULL
+);
+
+CREATE TABLE PaymentSlip (
+    Id SERIAL PRIMARY KEY,
+    PayerName VARCHAR(255) NOT NULL,
+    PayerDocument VARCHAR(255) NOT NULL,
+    BeneficiaryName VARCHAR(255) NOT NULL,
+    BeneficiaryDocument VARCHAR(255) NOT NULL,
+    Value DECIMAL NOT NULL,
+    DueDate DATE NOT NULL,
+    Observation TEXT,
+    BankId INTEGER,
+    FOREIGN KEY (BankId) REFERENCES Bank(Id)
+);

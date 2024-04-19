@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\Application\Payments\Application.Payments\Application.Payments.csproj" />
+      <ProjectReference Include="..\..\..\..\..\Domain\Payments\Domain.Payments\Domain.Payments.csproj" />
+      <ProjectReference Include="..\..\..\..\Domain\Payments\Infrastructure.Domain.Payments\Infrastructure.Domain.Payments.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+        <HintPath>C:\Users\Alisson\.dotnet\shared\Microsoft.AspNetCore.App\6.0.26\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
