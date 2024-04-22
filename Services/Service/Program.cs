@@ -9,7 +9,7 @@ builder.Configuration.AddJsonFile("Config/appsettings.json", optional: false);
 builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration));
 
 // Add services to the container.
-ResolverFactoryPayments.RegisterServices(builder.Services);
+ResolverFactoryPayments.RegisterServices(builder.Services, builder.Configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

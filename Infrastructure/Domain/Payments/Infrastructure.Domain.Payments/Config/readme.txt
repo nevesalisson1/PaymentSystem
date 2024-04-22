@@ -1,0 +1,1 @@
+The Config folder of the projects should not contain versioned files other than this one, which was versioned only to keep the folder versioned (a GIT limitation).

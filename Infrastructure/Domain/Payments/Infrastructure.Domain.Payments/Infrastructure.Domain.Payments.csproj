@@ -11,9 +11,25 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.29" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.29" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.29" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Config\" />
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
+    <Target Name="PreBuild" AfterTargets="PreBuildEvent" Condition=" '$(OS)' != 'Unix' ">
+        <Exec Command="copy ..\..\..\..\Config\*.json Config /Y&#xD;&#xA;copy ..\..\..\..\Config\readme.txt Config /Y" />
+    </Target>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(OS)' == 'Unix' ">
+        <Exec Command="cp ../../Config/*.json Config &#xD;&#xA;cp ../../Config/readme.txt Config " />
+    </Target>
 
 </Project>
