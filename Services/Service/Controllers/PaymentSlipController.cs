@@ -10,25 +10,28 @@ public class PaymentSlipController : ControllerBase
 {
     private readonly IBankAppService _bankAppService;
     private readonly IPaymentSlipAppService _paymentSlipAppService;
-    
-    public PaymentSlipController(IBankAppService bankAppService, IPaymentSlipAppService paymentSlipAppService) 
+
+    public PaymentSlipController(IBankAppService bankAppService, IPaymentSlipAppService paymentSlipAppService)
     {
         _bankAppService = bankAppService;
         _paymentSlipAppService = paymentSlipAppService;
     }
-    
-    [HttpPost(Name = "CreatePaymentSlip")]
+
+    [HttpPost]
     public async Task<IActionResult> CreatePaymentSlip([FromBody] CreatePaymentSlipViewModel createPaymentSlipViewModel)
     {
         var paymentSlipId = await _paymentSlipAppService.CreatePaymentSlip(createPaymentSlipViewModel);
-        return CreatedAtRoute("GetPaymentSlip", new { id = paymentSlipId }, new { PaymentSlipId = paymentSlipId });
+        return CreatedAtAction(nameof(GetPaymentSlip), new { id = paymentSlipId }, new { PaymentSlipId = paymentSlipId });
     }
-    
-    [HttpGet("{id}", Name = "GetPaymentSlip")]
+
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetPaymentSlip(int id)
     {
         var paymentSlipViewModel = await _paymentSlipAppService.GetPaymentSlip(id);
-        
+        if (paymentSlipViewModel == null)
+        {
+            return NotFound();
+        }
         return Ok(paymentSlipViewModel);
     }
 }

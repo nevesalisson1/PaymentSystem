@@ -12,6 +12,7 @@ This is a C# application that implements a payments system. It uses clean archit
 - Dependency Injection
 - SOLID Principles
 - Migrations
+- RESTful API
 
 ## Features
 
