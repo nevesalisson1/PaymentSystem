@@ -1,6 +1,8 @@
 ﻿using Application.Localidade.AutoMapper;
 using Application.Payments.AppServices;
 using Domain.Payments.Repository;
+using Domain.Payments.Services.Implementations;
+using Domain.Payments.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Domain.Payments.Context.Implementations;
 using Infrastructure.Domain.Payments.Context.Interfaces;
@@ -14,6 +16,9 @@ public static class ResolverFactoryPayments
 {
     public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
     {
+        // Service Layer
+        services.AddScoped<IPaymentSlipService, PaymentSlipService>();
+        
         // Application Layer
         services.AddScoped<IBankAppService, BankAppService>();
         services.AddScoped<IPaymentSlipAppService, PaymentSlipAppService>();

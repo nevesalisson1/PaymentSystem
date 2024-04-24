@@ -3,17 +3,20 @@ using Application.Payments.ViewModel;
 using AutoMapper;
 using Domain.Payments.Models;
 using Domain.Payments.Repository;
+using Domain.Payments.Services.Interfaces;
 
 namespace Application.Payments.AppServices;
 
 public class PaymentSlipAppService : IPaymentSlipAppService
 {
     private readonly IPaymentSlipRepository _paymentSlipRepository;
+    private readonly IPaymentSlipService _paymentSlipService;
     private readonly IMapper _mapper;
 
-    public PaymentSlipAppService(IPaymentSlipRepository paymentSlipRepository, IMapper mapper)
+    public PaymentSlipAppService(IPaymentSlipRepository paymentSlipRepository, IMapper mapper, IPaymentSlipService paymentSlipService)
     {
         _paymentSlipRepository = paymentSlipRepository;
+        _paymentSlipService = paymentSlipService;
         _mapper = mapper;
     }
 
@@ -28,21 +31,8 @@ public class PaymentSlipAppService : IPaymentSlipAppService
         var paymentSlip = await _paymentSlipRepository.GetPaymentSlipAsync(id);
         if (paymentSlip?.DueDate.Date < DateTime.Now.Date)
         {
-            int monthsPastDue = CalculateMonthsPastDue(paymentSlip.DueDate);
-            decimal totalInterest = CalculateTotalInterest(paymentSlip.Value, paymentSlip.Bank.InterestRate, monthsPastDue);
-
-            paymentSlip.Value += totalInterest;
+            paymentSlip.Value = _paymentSlipService.CalculatePaymentSlip(paymentSlip);
         }
         return _mapper.Map<PaymentSlipViewModel>(paymentSlip);
-    }
-
-    private int CalculateMonthsPastDue(DateTime dueDate)
-    {
-        return ((DateTime.Now.Year - dueDate.Year) * 12) + DateTime.Now.Month - dueDate.Month;
-    }
-
-    private decimal CalculateTotalInterest(decimal value, decimal interestRate, int monthsPastDue)
-    {
-        return value * interestRate * monthsPastDue;
     }
 }
