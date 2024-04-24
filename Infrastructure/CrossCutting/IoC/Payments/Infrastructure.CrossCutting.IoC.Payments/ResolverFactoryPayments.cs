@@ -16,14 +16,24 @@ public static class ResolverFactoryPayments
 {
     public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
     {
-        // Service Layer
+        RegisterServiceLayer(services);
+        RegisterApplicationLayer(services);
+        RegisterInfrastructureLayer(services, configuration);
+    }
+
+    private static void RegisterServiceLayer(IServiceCollection services)
+    {
         services.AddScoped<IPaymentSlipService, PaymentSlipService>();
-        
-        // Application Layer
+    }
+
+    private static void RegisterApplicationLayer(IServiceCollection services)
+    {
         services.AddScoped<IBankAppService, BankAppService>();
         services.AddScoped<IPaymentSlipAppService, PaymentSlipAppService>();
+    }
 
-        // Infrastructure Layer
+    private static void RegisterInfrastructureLayer(IServiceCollection services, IConfiguration configuration)
+    {
         services.AddScoped<IBankRepository, BankRepository>();
         services.AddScoped<IPaymentSlipRepository, PaymentSlipRepository>();
         services.AddScoped<IBankMapping, BankMapping>();
